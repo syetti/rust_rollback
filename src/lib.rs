@@ -1,9 +1,7 @@
 // lib.rs
-// 1. Declare the modules so Rust knows to compile those files
 mod state;
 mod rollback_core;
 
-// 2. Bring the required structs/constants into scope
 use rollback_core::RollbackCore;
 use crate::rollback_core::MAX_ROLLBACK_FRAMES;
 
@@ -33,7 +31,6 @@ impl INode for FgSession {
     fn physics_process(&mut self, _delta: f64) {
         // In Godot, you would read local controller inputs here
         // send them to the network, and push them to the core.
-        
         self.core.advance_frame();
     }
 }

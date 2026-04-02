@@ -85,6 +85,7 @@ mod tests {
     use crate::state::PlayerInput;
 
     #[test]
+    //Check that advancing frames updates the current frame counter
     fn test_basic_frame_advancement() {
         let mut core = RollbackCore::new();
         assert_eq!(core.current_frame, 0);
@@ -95,27 +96,27 @@ mod tests {
 
     #[test]
     fn test_rollback_consistency() {
+        //Check that processing a delayed input correctly rolls back and updates the state
         let mut core = RollbackCore::new();
         
         // define an input (e.g., 1 =  Punch)
         let punch_input: PlayerInput = 1; 
 
-        // 1. Advance to frame 5 normally
+        // Advance to frame 5 normally
         for _ in 0..5 {
             core.advance_frame();
         }
         
-        // 2. Save a snapshot of the state at frame 5 (Timeline A)
+        // Save a snapshot of the state at frame 5 (Timeline A)
         let state_without_punch = core.state_history[5 % MAX_ROLLBACK_FRAMES];
 
-        // 3. Suddenly, a delayed network packet arrives! 
-        // Player 2 actually pressed "Punch" on frame 2.
+        // Simpulate delayed input from Player 2 for frame 2 (Timeline B)
         core.process_network_input(2, punch_input);
 
         // process_network_input automatically rolled us back to frame 2 
         // and fast-forwarded us back to frame 5.
         
-        // 4. Verify Timeline B
+        // Verify That frame is back to 5 and the state reflects the punch input from Player 2
         let state_with_punch = core.state_history[5 % MAX_ROLLBACK_FRAMES];
         assert_eq!(core.current_frame, 5, "We should be back at frame 5");
         

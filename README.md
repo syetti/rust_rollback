@@ -4,6 +4,7 @@
 [![Godot 4.x](https://img.shields.io/badge/Godot-4.x-blue.svg)](https://godotengine.org/)
 
 A hyper-specialized, pure-Rust rollback netcode library built as a Godot Extension (`gdext`). Designed specifically for strict, 60-FPS 2D fighting games.
+I made this because the previous extension I was using for rollback randomly stopped working, and after 2 (count 'em) TWO days of debugging error codes, I concluded that it would be more fun and cooler to just make my own.
 
 ## Philosophy: Simulation vs. Presentation
 
